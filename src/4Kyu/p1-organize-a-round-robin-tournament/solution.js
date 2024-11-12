@@ -1,24 +1,34 @@
 function buildMatchesTable(numberOfTeams) {
-  let numOfMatchesPerRound = numberOfTeams / 2;
-  let arr = Array.from({ length: numberOfTeams }, (_, i) => i + 1);
-
-  var result = arr.flatMap((v, i) =>
-    arr.slice(i + 1).map((w) => (v + "" + w).split(""))
-  );
-
-  let matches = [result[0]];
-  result.shift();
-  while (true) {
-    for (let i = 0; i < result.length; i++) {
-        for (let j = 0; j < numOfMatchesPerRound; j++) {
-            for (let k = 0; k < 2; k++) {
-                if (matches[i][j] === result[i][j]) {}
-            }
-        }
+  let pairs = [];
+  let n = numberOfTeams;
+  let arr = [];
+  //create all possible pairs without repeating
+  for (var i = 1; i <= n; i++) {
+    for (var j = i + 1; j <= n; j++) {
+      pairs.push([i, j]);
     }
   }
 
-  console.log(result)
+  //not working
+  for (var i = 0; i < n - 1; i++) {
+    if (!arr[i]) {
+      arr.push(pairs[j]);
+      pairs.splice(j, 1);
+    }
+    for (var j = 0; j < pairs.length; j++) {
+      for (var k = 0; k < arr.length; k++) {
+        if (
+          arr[k][0] !== pairs[j][0] &&
+          arr[k][1] !== pairs[j][1]
+        ) {
+          arr.push(pairs[j]);
+          pairs.splice(j, 1);
+        }
+      }
+    }
+  }
+
+  console.log(arr);
 }
 
 buildMatchesTable(4);
